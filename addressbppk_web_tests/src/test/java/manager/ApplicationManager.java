@@ -6,6 +6,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
 
 public class ApplicationManager {
 
@@ -20,6 +21,8 @@ public class ApplicationManager {
                 driver = new FirefoxDriver();
             } else if ("chrome".equals(browser)){
                 driver = new ChromeDriver();
+            } else if ("safari".equals(browser)) {
+                driver = new SafariDriver(); // Доступно только для МакОс
             } else {
                 throw new IllegalArgumentException(String.format("Не тот браузер %s", browser));
             }
