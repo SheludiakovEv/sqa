@@ -23,6 +23,12 @@ public class ContactHelper  extends HelperBase{
         clickHomePage();
     }
 
+    public void removeAllContact(){
+        highLightСontact();
+        clickDeteButtonContact();
+        clickHomePage();
+    }
+
     public void openCreationPage(){
         if (!manager.isElementPresent(By.name("Send e-Mail"))) {
             click(By.linkText("add new"));
@@ -60,7 +66,10 @@ public class ContactHelper  extends HelperBase{
     }
 
     public boolean isContactPresent() {
-        openCreationPage();
         return manager.isElementPresent(By.name("selected[]"));
+    }
+
+    public int getContactCount() {
+        return manager.driver.findElements(By.name("selected[]")).size();
     }
 }
