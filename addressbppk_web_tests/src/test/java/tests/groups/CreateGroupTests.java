@@ -1,7 +1,8 @@
-package tests;
+package tests.groups;
 
 import model.GroupDate;
 import org.junit.jupiter.api.Test;
+import tests.TestBase;
 
 public class CreateGroupTests extends TestBase {
 
