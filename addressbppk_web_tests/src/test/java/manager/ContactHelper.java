@@ -50,7 +50,7 @@ public class ContactHelper  extends HelperBase{
     }
 
     private void selectContact() {
-        click(By.cssSelector("input:nth-child(71)"));
+        click(By.xpath("//input[@value=\'Enter\']"));
     }
 
     private void highLightСontact() {
