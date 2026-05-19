@@ -4,6 +4,9 @@ package manager;
 import model.ContactDate;
 import org.openqa.selenium.By;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ContactHelper  extends HelperBase{
 
     public ContactHelper(ApplicationManager manager) {
@@ -17,13 +20,7 @@ public class ContactHelper  extends HelperBase{
         openHomePage();
     }
 
-    public void removeContact(){
-        highLightСontact();
-        clickDeteButtonContact();
-        clickHomePage();
-    }
-
-    public void removeAllContact(){
+    public void removeContact(ContactDate contact){
         highLightСontact();
         clickDeteButtonContact();
         clickHomePage();
@@ -36,14 +33,16 @@ public class ContactHelper  extends HelperBase{
     }
 
     public void openHomePage(){
-        click(By.linkText("home page"));
+        if (!manager.isElementPresent(By.name("Send e-Mail"))) {
+            click(By.linkText("home"));
+        }
     }
 
     private void fillContactForm(ContactDate contact) {
         click(By.name("firstname"));
         type(By.name("firstname"), contact.firstName());
         click(By.name("middlename"));
-        type(By.name("middlename"), contact.firstName());
+        type(By.name("middlename"), contact.middleName());
         click(By.name("theform"));
         click(By.name("lastname"));
         type(By.name("lastname"), contact.lastName());
@@ -71,5 +70,44 @@ public class ContactHelper  extends HelperBase{
 
     public int getContactCount() {
         return manager.driver.findElements(By.name("selected[]")).size();
+    }
+
+    public int getCount() {
+        openHomePage();
+        return manager.driver.findElements(By.name("selected[]")).size();
+    }
+
+    public void removeAllContacts() {
+        openHomePage();
+        selectAllContacts();
+    }
+
+    private void selectAllContacts() {
+        var checkboxes = manager.driver.findElements(By.name("selected[]"));
+        for (var checkbox : checkboxes) {
+            checkbox.click();
+        }
+        removeSelectedContacts();
+    }
+
+    private void removeSelectedContacts() {
+        click(By.name("delete"));
+    }
+
+    public List<ContactDate> getList() {
+        openHomePage();
+        var contacts = new ArrayList<ContactDate>();
+        var spans = manager.driver.findElements(By.cssSelector("tr[name='entry']"));
+        for (var span : spans){
+
+            var checkbox = span.findElement(By.name("selected[]"));
+            var id = checkbox.getAttribute("value");
+
+            var firstname = span.findElement(By.cssSelector("td:nth-child(3)")).getText();
+            var lastname = span.findElement(By.cssSelector("td:nth-child(2)")).getText();
+
+            contacts.add(new ContactDate().withId(id).withFirstName(firstname).withLastName(lastname));
+        }
+        return contacts;
     }
 }
