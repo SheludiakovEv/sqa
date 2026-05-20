@@ -2,6 +2,7 @@ package manager;
 
 
 import model.ContactDate;
+import model.GroupDate;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class ContactHelper  extends HelperBase{
         type(By.name("firstname"), contact.firstName());
         click(By.name("middlename"));
         type(By.name("middlename"), contact.middleName());
-        click(By.name("theform"));
+        //click(By.name("theform"));
         click(By.name("lastname"));
         type(By.name("lastname"), contact.lastName());
     }
@@ -109,5 +110,25 @@ public class ContactHelper  extends HelperBase{
             contacts.add(new ContactDate().withId(id).withFirstName(firstname).withLastName(lastname));
         }
         return contacts;
+    }
+
+    public void modifyContact(ContactDate contacts, ContactDate modifiedContact) {
+        openHomePage();
+        selectContactToEdit(contacts);
+        fillContactForm(modifiedContact);
+        submitContactModification();
+        returnToHomePage();
+    }
+
+    private void selectContactToEdit(ContactDate contacts) {
+        click(By.cssSelector(String.format("a[href*='edit.php?id=%s']", contacts.id())));
+    }
+
+    private void submitContactModification() {
+        click(By.name("update"));
+    }
+
+    private void returnToHomePage() {
+        click(By.linkText("home page"));
     }
 }
