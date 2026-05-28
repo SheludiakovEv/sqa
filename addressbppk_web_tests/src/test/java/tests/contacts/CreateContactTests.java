@@ -36,14 +36,14 @@ public class CreateContactTests extends TestBase {
             }
         }
         for (int i = 0; i < 6; i++) {
-            result.add(new ContactDate("", randomString(i), randomString(i), randomString(i),""));
+            result.add(new ContactDate("", randomString(i), randomString(i), randomString(i),randomFile("src/test/resources/images")));
         }
         return result;
     }
 
     @ParameterizedTest
     @MethodSource("contactProvider")
-    public void canCreateMultipleGroups(ContactDate contact) {
+    public void canCreateMultipleContacts(ContactDate contact) {
         int contactCount = app.contacts().getContactCount();
 
         app.contacts().createContact(contact);
