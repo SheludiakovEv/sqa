@@ -16,12 +16,12 @@ public class CreateContactTests extends TestBase {
 
     @Test
     public void createContact() {
-        app.contacts().createContact(new ContactDate());
+        app.contacts().createContact(new ContactDate().withFirstName("Ivan").withPhoto("src/test/resources/images/avatar.png"));
     }
 
     @Test
-    public void createGroup() {
-        app.contacts().createContact(new ContactDate("","idea1", "idea2", "idea3"));
+    public void createContacts() {
+        app.contacts().createContact(new ContactDate("","idea1", "idea2", "idea3", ""));
     }
 
     public static List<ContactDate> contactProvider() {
@@ -29,12 +29,14 @@ public class CreateContactTests extends TestBase {
         for (var name : List.of("", "first_name")) {
             for (var header : List.of("", "middle_name")) {
                 for (var footer : List.of("", "last_name")) {
-                    result.add(new ContactDate("", name, header, footer));
+                    for (var photo : List.of("", "src/test/resources/images/avatar.png")) {
+                        result.add(new ContactDate("", name, header, footer, photo));
+                    }
                 }
             }
         }
-        for (int i = 0; i < 5; i++) {
-            result.add(new ContactDate("", randomString(i), randomString(i), randomString(i)));
+        for (int i = 0; i < 6; i++) {
+            result.add(new ContactDate("", randomString(i), randomString(i), randomString(i),""));
         }
         return result;
     }
@@ -64,7 +66,8 @@ public class CreateContactTests extends TestBase {
 
         var expectedList = new ArrayList<>(oldContacts);
         var contactWithId = contacts.withId(newContacts.get(newContacts.size() - 1).id())
-                .withMiddleName("");
+                .withMiddleName("")
+                .withPhoto("");
 
         expectedList.add(contactWithId);
         expectedList.sort(compareById);

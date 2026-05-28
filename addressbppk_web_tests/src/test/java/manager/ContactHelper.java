@@ -44,9 +44,9 @@ public class ContactHelper  extends HelperBase{
         type(By.name("firstname"), contact.firstName());
         click(By.name("middlename"));
         type(By.name("middlename"), contact.middleName());
-        //click(By.name("theform"));
         click(By.name("lastname"));
         type(By.name("lastname"), contact.lastName());
+        attach(By.name("photo"), contact.photo());
     }
 
     private void selectContact() {
