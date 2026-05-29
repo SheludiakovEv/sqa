@@ -1,18 +1,23 @@
 package tests.groups;
 
+import common.CommonFunctions;
 import model.GroupDate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import tests.TestBase;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class CreateGroupTests extends TestBase {
 
-    public static List<GroupDate> groupProvider() {
+    public static List<GroupDate> groupProvider() throws IOException {
         var result = new ArrayList<GroupDate>();
         for (var name : List.of("", "group_name")) {
             for (var header : List.of("", "group_header")) {
@@ -24,12 +29,9 @@ public class CreateGroupTests extends TestBase {
                 }
             }
         }
-        for (int i = 0; i < 5; i++) {
-            result.add(new GroupDate()
-                    .withName(randomString(i))
-                    .withHeader(randomString(i))
-                    .withFooter(randomString(i)));
-        }
+        ObjectMapper mapper = new ObjectMapper();
+        var value = mapper.readValue(new File("groups.json"), new TypeReference<List<GroupDate>>(){});
+        result.addAll(value);
         return result;
     }
 
