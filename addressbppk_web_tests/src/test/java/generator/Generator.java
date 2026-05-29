@@ -1,14 +1,19 @@
 package generator;
+
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import common.CommonFunctions;
+import model.ContactDate;
 import model.GroupDate;
 import tools.jackson.databind.ObjectMapper;
-import tools.jackson.databind.SerializationFeature;
+import tools.jackson.dataformat.xml.XmlMapper;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.XMLFormatter;
 
 public class Generator {
 
@@ -39,16 +44,16 @@ public class Generator {
     }
 
     private Object generate() {
-        if("groups".equals(type)){
-            return generatGroups();
+        if ("groups".equals(type)) {
+            return generateGroups();
         } else if ("contacts".equals(type)) {
-            return generatContacts();
+            return generateContacts();
         } else {
             throw new IllegalArgumentException("Неизвестный тип данных" + type);
         }
     }
 
-    private Object generatGroups() {
+    private Object generateGroups() {
         var result = new ArrayList<GroupDate>();
         for (int i = 0; i < count; i++) {
             result.add(new GroupDate()
@@ -59,14 +64,32 @@ public class Generator {
         return result;
     }
 
-    private Object generatContacts() {
-        return null;
+    private Object generateContacts() {
+        var result = new ArrayList<ContactDate>();
+        for (int i = 0; i < count; i++) {
+            result.add(new ContactDate()
+                    .withFirstName(CommonFunctions.randomString(i))
+                    .withLastName(CommonFunctions.randomString(i))
+                    .withMiddleName(CommonFunctions.randomString(i))
+                    .withPhoto(""));
+        }
+        return result;
     }
 
     private void save(Object data) throws IOException {
         if ("json".equals(format)) {
             ObjectMapper mapper = new ObjectMapper();
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(output), data);
+            var json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data);
+
+            try (var writer = new FileWriter(output)) {
+                writer.write(json);
+            }
+        }  else if ("yaml".equals(format)){
+            var mapper= new YAMLMapper();
+            mapper.writeValue(new File(output), data);
+        }  else if ("xml".equals(format)){
+            var mapper= new XmlMapper();
+            mapper.writeValue(new File(output), data);
         } else {
             throw new IllegalArgumentException("Неизвестный формат " + format);
         }
