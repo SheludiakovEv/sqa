@@ -1,7 +1,6 @@
 package tests.contacts;
 
 import model.ContactDate;
-import model.GroupDate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;

@@ -10,15 +10,30 @@ repositories {
 }
 
 dependencies {
+    // JUnit 5
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    // Подключаем только ядро Selenium и поддержку Firefox
-    testImplementation 'org.seleniumhq.selenium:selenium-java:4.20.0'
+
+    // Selenium: Подключаем строго ядро и Firefox, как написано в комментарии
+    testImplementation 'org.seleniumhq.selenium:selenium-api:4.20.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-firefox-driver:4.20.0'
+
+    // Точечное подключение только нужных браузеров
+    testImplementation 'org.seleniumhq.selenium:selenium-api:4.20.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.20.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-firefox-driver:4.20.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-safari-driver:4.20.0'
+
+    // Вспомогательные утилиты
     implementation 'org.jcommander:jcommander:1.83'
-    implementation 'tools.jackson.core:jackson-databind:3.0.0'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.2'
-    implementation 'tools.jackson.dataformat:jackson-dataformat-xml:3.1.1'
+    implementation 'com.mysql:mysql-connector-j:9.7.0'
+
+    // Jackson 2.x: Используем BOM для автоматического выравнивания версий
+    implementation platform('com.fasterxml.jackson:jackson-bom:2.17.1')
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
 }
 
 test {

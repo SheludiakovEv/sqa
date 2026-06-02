@@ -2,7 +2,6 @@ package manager;
 
 
 import model.ContactDate;
-import model.GroupDate;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
