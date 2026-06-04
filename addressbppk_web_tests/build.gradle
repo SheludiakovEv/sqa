@@ -28,6 +28,7 @@ dependencies {
     // Вспомогательные утилиты
     implementation 'org.jcommander:jcommander:1.83'
     implementation 'com.mysql:mysql-connector-j:9.7.0'
+    implementation 'org.hibernate.orm:hibernate-core:6.6.1.Final'
 
     // Jackson 2.x: Используем BOM для автоматического выравнивания версий
     implementation platform('com.fasterxml.jackson:jackson-bom:2.17.1')
