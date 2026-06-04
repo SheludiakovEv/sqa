@@ -12,15 +12,15 @@ import java.util.Random;
 public class GroupModificationTests extends TestBase {
     @Test
     void canModifyGroup() {
-        if (app.groups().getCount() == 0) {
-            app.groups().createGroup(new GroupDate("", "ff", "ff", "ff"));
+        if (app.hmb().getGroupCount() == 0) {
+            app.hmb().createGroup(new GroupDate("", "ff", "ff", "ff"));
         }
-        var oldGroups = app.groups().getList();
+        var oldGroups = app.hmb().getGroupList();
         var rnd = new Random();
         var index = rnd.nextInt(oldGroups.size());
         GroupDate testData = new GroupDate().withName("modify name");
         app.groups().modifyGroup(oldGroups.get(index), testData);
-        var newGroups = app.groups().getList();
+        var newGroups = app.hmb().getGroupList();
         var expectedList = new ArrayList<>(oldGroups);
         expectedList.set(index, testData.withId(oldGroups.get(index).id()));
         //Сравниваем два числа, ид групп
