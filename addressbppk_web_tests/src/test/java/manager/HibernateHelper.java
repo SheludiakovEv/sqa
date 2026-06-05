@@ -1,6 +1,8 @@
 package manager;
 
+import manager.hbm.ContactRecord;
 import manager.hbm.GroupRecord;
+import model.ContactDate;
 import model.GroupDate;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
@@ -18,10 +20,10 @@ public class HibernateHelper extends HelperBase{
 
         sessionFactory =
                 new Configuration()
-//                        .addAnnotatedClass(Book.class)
+                        .addAnnotatedClass(ContactRecord.class)
                         .addAnnotatedClass(GroupRecord.class)
                         // PostgreSQL
-                        .setProperty(AvailableSettings.JAKARTA_JDBC_URL, "jdbc:mysql://localhost/addressbook")
+                        .setProperty(AvailableSettings.JAKARTA_JDBC_URL, "jdbc:mysql://localhost/addressbook?zeroDateTimeBehavior=CONVERT_TO_NULL")
                         .setProperty(AvailableSettings.JAKARTA_JDBC_USER, "root")
                         .setProperty(AvailableSettings.JAKARTA_JDBC_PASSWORD, "")
                         .buildSessionFactory();
@@ -64,6 +66,36 @@ public class HibernateHelper extends HelperBase{
             session.getTransaction().begin();
             session.persist(convert(groupDate));
             session.getTransaction().commit();
+        });
+    }
+
+    static List<ContactDate> convertContactList(List<ContactRecord> records){
+        List<ContactDate> result = new ArrayList<>();
+        for (var record : records){
+            result.add(convert(record));
+        }
+        return result;
+    }
+
+    private static ContactDate convert(ContactRecord record) {
+        return new ContactDate().withId("" + record.id)
+                .withFirstName(record.firstname)
+                .withMiddleName(record.middlename)
+                .withLastName(record.lastname)
+                .withPhoto(record.photo);
+    }
+
+    private static ContactRecord convert(ContactDate data) {
+        var id = data.id();
+        if("".equals(id)){
+            id = "0";
+        }
+        return new ContactRecord(Integer.parseInt(id), data.firstName(), data.middleName(), data.lastName(), data.photo());
+    }
+
+    public List<ContactDate> getContactsInGroup(GroupDate group) {
+        return sessionFactory.fromSession(session -> {
+            return convertContactList(session.get(GroupRecord.class, group.id()).contacts);
         });
     }
 }

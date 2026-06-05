@@ -23,7 +23,24 @@ public class CreateContactTests extends TestBase {
 
     @Test
     public void createContact() {
-        app.contacts().createContact(new ContactDate().withFirstName("Ivan").withPhoto("src/test/resources/images/avatar.png"));
+        app.contacts().createContact(new ContactDate()
+                .withFirstName("Ivan")
+                .withPhoto("src/test/resources/images/avatar.png"));
+    }
+
+    @Test
+    public void createContactInGroup() {
+        if (app.hmb().getGroupCount() == 0) {
+            app.hmb().createGroup(new GroupDate("", "ff", "ff", "ff"));
+        }
+        var group = app.hmb().getGroupList().get(0);
+
+        var oldRelated = app.hmb().getContactsInGroup(group);
+        app.contacts().createContactInGroup(new ContactDate()
+                .withFirstName("Ivan")
+                .withPhoto("src/test/resources/images/avatar.png"), group);
+        var newRelated = app.hmb().getContactsInGroup(group);
+        Assertions.assertEquals(oldRelated.size()+1, newRelated.size());
     }
 
     @Test

@@ -1,7 +1,8 @@
 package manager;
 
-
+import org.openqa.selenium.support.ui.Select;
 import model.ContactDate;
+import model.GroupDate;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
@@ -18,6 +19,18 @@ public class ContactHelper  extends HelperBase{
         fillContactForm(contact);
         selectContact();
         openHomePage();
+    }
+
+    public void createContactInGroup(ContactDate contact, GroupDate group){
+        openCreationPage();
+        fillContactForm(contact);
+        selectGroup(group);
+        selectContact();
+        openHomePage();
+    }
+
+    private void selectGroup(GroupDate group) {
+        new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
     }
 
     public void removeContact(ContactDate contact){

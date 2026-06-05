@@ -24,6 +24,7 @@ dependencies {
     testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.20.0'
     testImplementation 'org.seleniumhq.selenium:selenium-firefox-driver:4.20.0'
     testImplementation 'org.seleniumhq.selenium:selenium-safari-driver:4.20.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.20.0'
 
     // Вспомогательные утилиты
     implementation 'org.jcommander:jcommander:1.83'
