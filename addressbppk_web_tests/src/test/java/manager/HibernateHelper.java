@@ -82,7 +82,7 @@ public class HibernateHelper extends HelperBase{
                 .withFirstName(record.firstname)
                 .withMiddleName(record.middlename)
                 .withLastName(record.lastname)
-                .withPhoto(record.photo);
+                .withPhoto("");
     }
 
     private static ContactRecord convert(ContactDate data) {
@@ -91,6 +91,18 @@ public class HibernateHelper extends HelperBase{
             id = "0";
         }
         return new ContactRecord(Integer.parseInt(id), data.firstName(), data.middleName(), data.lastName(), data.photo());
+    }
+
+    public List<ContactDate> getContactList() {
+        return convertContactList(sessionFactory.fromSession(session -> {
+            return session.createQuery("from ContactRecord", ContactRecord.class).list();
+        }));
+    }
+
+    public long getContactCount() {
+        return sessionFactory.fromSession(session -> {
+            return session.createQuery("select count (*)from ContactRecord",long.class).getSingleResult();
+        });
     }
 
     public List<ContactDate> getContactsInGroup(GroupDate group) {

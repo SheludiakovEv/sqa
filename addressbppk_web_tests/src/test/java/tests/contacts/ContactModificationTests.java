@@ -16,12 +16,12 @@ public class ContactModificationTests extends TestBase {
         if (app.contacts().getCount() == 0) {
             app.contacts().createContact(new ContactDate("", "ff", "ff", "ff", ""));
         }
-        var oldContacts = app.contacts().getList();
+        var oldContacts = app.hmb().getContactList();
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
         ContactDate testData = new ContactDate().withFirstName("modify name");
         app.contacts().modifyContact(oldContacts.get(index), testData);
-        var newContacts = app.contacts().getList();
+        var newContacts = app.hmb().getContactList();
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.set(index, testData.withId(oldContacts.get(index).id()));
         //Сравниваем два числа, ид групп

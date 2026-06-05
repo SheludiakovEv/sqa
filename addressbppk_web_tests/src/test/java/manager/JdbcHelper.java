@@ -1,5 +1,6 @@
 package manager;
 
+import model.ContactDate;
 import model.GroupDate;
 
 import java.sql.DriverManager;
@@ -28,6 +29,25 @@ public class JdbcHelper extends HelperBase{
             throw new RuntimeException(e);
         }
         return groups;
+    }
+
+    public List<ContactDate> getContactList() {
+        var contacts =new ArrayList<ContactDate>();
+        try (var conn =DriverManager.getConnection("jdbc:mysql://localhost/addressbook", "root", "");
+             var statement = conn.createStatement();var result = statement.executeQuery("SELECT id,firstname,middlename,lastname,photo FROM addressbook"))
+        {
+            while (result.next()){
+                contacts.add(new ContactDate()
+                        .withId(result.getString("id"))
+                        .withFirstName(result.getString("firstname"))
+                        .withMiddleName(result.getString("middlename"))
+                        .withLastName(result.getString("lastname"))
+                        .withPhoto(""));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return contacts;
     }
 
     public void checkConsistency() {
