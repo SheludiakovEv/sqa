@@ -105,9 +105,20 @@ public class HibernateHelper extends HelperBase{
         });
     }
 
+//    public List<ContactDate> getContactsInGroup(GroupDate group) {
+//        return sessionFactory.fromSession(session -> {
+//            return convertContactList(session.get(GroupRecord.class, group.id()).contacts);
+//        });
+//    }
+
     public List<ContactDate> getContactsInGroup(GroupDate group) {
         return sessionFactory.fromSession(session -> {
-            return convertContactList(session.get(GroupRecord.class, group.id()).contacts);
+            var query = session.createQuery(
+                    "select c from GroupRecord g join g.contacts c where g.id = :groupId",
+                    ContactRecord.class
+            );
+            query.setParameter("groupId", Integer.parseInt(group.id()));
+            return convertContactList(query.list());
         });
     }
 }

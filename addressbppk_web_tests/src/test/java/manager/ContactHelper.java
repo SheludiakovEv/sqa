@@ -17,15 +17,14 @@ public class ContactHelper  extends HelperBase{
     public void createContact(ContactDate contact){
         openCreationPage();
         fillContactForm(contact);
-        selectContact();
-        openHomePage();
+        //selectContact(contact);
     }
 
     public void createContactInGroup(ContactDate contact, GroupDate group){
         openCreationPage();
         fillContactForm(contact);
         selectGroup(group);
-        selectContact();
+        //selectContact(contact);
         openHomePage();
     }
 
@@ -37,6 +36,23 @@ public class ContactHelper  extends HelperBase{
         highLightСontact();
         clickDeteButtonContact();
         clickHomePage();
+    }
+
+    public void RemoveGroupFromContact(ContactDate contact, GroupDate group) {
+        openHomePage();
+        selectGroupFilter(group);
+        selectContact(contact);
+        removeFromGroup();
+        openHomePage();
+    }
+
+
+    private void selectGroupFilter(GroupDate group) {
+        click(By.cssSelector(String.format("select[name='group'] option[value='%s']", group.id())));
+    }
+
+    private void removeFromGroup() {
+        click(By.name("remove"));
     }
 
     public void openCreationPage(){
@@ -61,8 +77,8 @@ public class ContactHelper  extends HelperBase{
         attach(By.name("photo"), contact.photo());
     }
 
-    private void selectContact() {
-        click(By.xpath("//input[@value=\'Enter\']"));
+    private void selectContact(ContactDate contact) {
+        click(By.cssSelector(String.format("input[value='%s']", contact.id())));
     }
 
     private void highLightСontact() {
@@ -142,5 +158,21 @@ public class ContactHelper  extends HelperBase{
 
     private void returnToHomePage() {
         click(By.linkText("home page"));
+    }
+
+    public void AddGroupToContact(ContactDate contact, GroupDate group) {
+        openHomePage();
+        selectContact(contact);
+        selectAddGroup(group);
+        addToGroup();
+        openHomePage();
+    }
+
+    private void selectAddGroup(GroupDate group) {
+        click(By.cssSelector(String.format("select[name='to_group'] option[value='%s']", group.id())));
+    }
+
+    private void addToGroup() {
+        click(By.name("add"));
     }
 }
