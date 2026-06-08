@@ -36,7 +36,7 @@ public class CreateContactTests extends TestBase {
 
         var oldRelated = app.hmb().getContactsInGroup(group);
         app.contacts().createContactInGroup(new ContactDate()
-                .withFirstName("Ivan")
+                .withFirstName("Ivan_createContactInGroup")
                 .withPhoto("src/test/resources/images/avatar.png"), group);
         var newRelated = app.hmb().getContactsInGroup(group);
         Assertions.assertEquals(oldRelated.size()+1, newRelated.size());

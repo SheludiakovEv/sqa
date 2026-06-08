@@ -17,6 +17,7 @@ public class ContactHelper  extends HelperBase{
     public void createContact(ContactDate contact){
         openCreationPage();
         fillContactForm(contact);
+        submitContactCreation();
         //selectContact(contact);
     }
 
@@ -24,6 +25,7 @@ public class ContactHelper  extends HelperBase{
         openCreationPage();
         fillContactForm(contact);
         selectGroup(group);
+        submitContactCreation();
         //selectContact(contact);
         openHomePage();
     }
@@ -33,7 +35,9 @@ public class ContactHelper  extends HelperBase{
     }
 
     public void removeContact(ContactDate contact){
-        highLightСontact();
+        openHomePage();         //Сначала гарантированно переходим на главную страницу
+        selectContact(contact); // Выбираем конкретный контакт по его ID, а не случайный первый
+        //highLightСontact();
         clickDeteButtonContact();
         clickHomePage();
     }
@@ -174,5 +178,9 @@ public class ContactHelper  extends HelperBase{
 
     private void addToGroup() {
         click(By.name("add"));
+    }
+
+    private void submitContactCreation() {
+        click(By.name("submit"));
     }
 }

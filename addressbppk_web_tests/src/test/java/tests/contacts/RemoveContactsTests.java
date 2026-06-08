@@ -52,7 +52,7 @@ public class RemoveContactsTests extends TestBase {
     }
 
     @Test
-    public void CanDRemoveGroupToContact() {
+    public void CanRemoveGroupToContact() {
 
         //Проверяем наличие контактов. если нет, то создаём
         if (!app.contacts().isContactPresent()) {
