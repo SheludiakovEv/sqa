@@ -59,12 +59,10 @@ public class RemoveContactsTests extends TestBase {
             app.contacts().createContact(new ContactDate("", "delete", "delete", "delete",""));
         }
 
-
         // Проверяем наличие групп. создаём если нет
         if (app.hmb().getGroupCount() == 0) {
-            app.hmb().createGroup(new GroupDate("", "ff", "ff", "ff"));
+            app.hmb().createGroup(new GroupDate("", "New_group_name", "New_group_header", "New_group_footer"));
         }
-
 
         var rnd = new Random();
         //Выбор случайной группы
@@ -72,10 +70,8 @@ public class RemoveContactsTests extends TestBase {
         var indexGroup = rnd.nextInt(groupList.size());
         var selectedGroup = groupList.get(indexGroup);
 
-
         //Получаем список контактов в группе ДО добавления
         var oldContactsInGroup = app.hmb().getContactsInGroup(selectedGroup);
-
 
         // Если в группе нет контактов — создаём и добавляем
         if (oldContactsInGroup.isEmpty()) {
@@ -98,13 +94,9 @@ public class RemoveContactsTests extends TestBase {
         // выбираем случайный контакт из группы
         var selectedContact = oldContactsInGroup.get(rnd.nextInt(oldContactsInGroup.size()));
 
-
         app.contacts().RemoveGroupFromContact(selectedContact, selectedGroup);
 
-
-
         var newContactsInGroup = app.hmb().getContactsInGroup(selectedGroup);
-
 
         Comparator<ContactDate> compareById = (o1, o2) ->
                 Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
