@@ -15,6 +15,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class CreateGroupTests extends TestBase {
 
@@ -49,11 +51,12 @@ public class CreateGroupTests extends TestBase {
         return result;
     }
 
-    public static List<GroupDate> singleRandomGroup() {
-        return List.of(new GroupDate()
+    public static Stream<GroupDate> singleRandomGroup() {
+        Supplier<GroupDate> randomGroup = ()-> new GroupDate()
                 .withName(CommonFunctions.randomString(10))
                 .withHeader(CommonFunctions.randomString(10))
-                .withFooter(CommonFunctions.randomString(10)));
+                .withFooter(CommonFunctions.randomString(10));
+        return Stream.generate(randomGroup).limit(10);
     }
 
     @ParameterizedTest
