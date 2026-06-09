@@ -13,9 +13,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CreateGroupTests extends TestBase {
@@ -32,16 +34,6 @@ public class CreateGroupTests extends TestBase {
                 }
             }
         }
-//        var json = "";
-//        try (var reader = new FileReader("groups.json");
-//        var breader = new BufferedReader(reader)
-//        ){
-//            var line = breader.readLine();
-//            while (line != null){
-//                json = json + line;
-//                line = breader.readLine();
-//            }
-//        }
 
         var json = Files.readString(Paths.get("groups.json"));
 
@@ -51,7 +43,7 @@ public class CreateGroupTests extends TestBase {
         return result;
     }
 
-    public static Stream<GroupDate> singleRandomGroup() {
+    public static Stream<GroupDate> randomGroup() {
         Supplier<GroupDate> randomGroup = ()-> new GroupDate()
                 .withName(CommonFunctions.randomString(10))
                 .withHeader(CommonFunctions.randomString(10))
@@ -60,22 +52,19 @@ public class CreateGroupTests extends TestBase {
     }
 
     @ParameterizedTest
-    @MethodSource("singleRandomGroup")
+    @MethodSource("randomGroup")
     public void canCreateGroups(GroupDate group) {
         var oldGroups = app.jdbc().getGroupList();
         app.groups().createGroup(group);
         var newGroups = app.jdbc().getGroupList();
-        //Сравниваем два числа, ид групп
-        Comparator<GroupDate> compareById = (o1, o2) -> {
-            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
-        newGroups.sort(compareById);
-        var maxId = newGroups.get(newGroups.size() - 1).id();
+
+        var extraGroups = newGroups.stream().filter(g -> ! oldGroups.contains(g)).toList();
+        var newId = extraGroups.get(0).id();
 
         var expectedList = new ArrayList<>(oldGroups);
-        expectedList.add(group.withId(maxId));
-        expectedList.sort(compareById);
-        Assertions.assertEquals(newGroups, expectedList);
+        expectedList.add(group.withId(newId));
+
+        Assertions.assertEquals(Set.copyOf(newGroups), Set.copyOf(expectedList));
     }
 
     public static List<GroupDate> negativeGroupProvider() {
