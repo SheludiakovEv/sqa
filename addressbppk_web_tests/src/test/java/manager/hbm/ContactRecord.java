@@ -15,6 +15,10 @@ public class ContactRecord {
     public String middlename;
     public String lastname;
     public String photo;
+    public String home;
+    public String mobile;
+    public String work;
+    public String homepage;
 
     public ContactRecord(){}
 

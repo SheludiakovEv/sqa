@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Configuration;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,7 +74,11 @@ public class HibernateHelper extends HelperBase{
                 .withFirstName(record.firstname)
                 .withMiddleName(record.middlename)
                 .withLastName(record.lastname)
-                .withPhoto("");
+                .withPhoto("")
+                .withHome(record.home)
+                .withMobile(record.mobile)
+                .withWork(record.work)
+                .withHomepage(record.homepage);
     }
 
     private static ContactRecord convert(ContactDate data) {

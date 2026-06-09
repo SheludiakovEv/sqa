@@ -15,7 +15,7 @@ public class RemoveContactsTests extends TestBase {
     @Test
     public void canRemoveContact() {
         if (!app.contacts().isContactPresent()) {
-            app.contacts().createContact(new ContactDate("", "delete", "delete", "delete",""));
+            app.contacts().createContact(new ContactDate("", "delete", "delete", "delete","", "", "", "", ""));
         }
         var oldContacts = app.hmb().getContactList();
         var rnd = new Random();
@@ -30,7 +30,7 @@ public class RemoveContactsTests extends TestBase {
     @Test
     public void canRemoveContactInGroup() {
         if (!app.contacts().isContactPresent()) {
-            app.contacts().createContact(new ContactDate("", "delete", "delete", "delete",""));
+            app.contacts().createContact(new ContactDate("", "delete", "delete", "delete","", "", "", "", ""));
         }
         var oldContacts = app.hmb().getContactList();
         var rnd = new Random();
@@ -45,7 +45,7 @@ public class RemoveContactsTests extends TestBase {
     @Test
     void canRemoveAllContactsAtOnce() {
         if (app.contacts().getCount() == 0) {
-            app.contacts().createContact(new ContactDate("", "ff", "ff", "ff",""));
+            app.contacts().createContact(new ContactDate("", "ff", "ff", "ff","", "", "", "", ""));
         }
         app.contacts().removeAllContacts();
         Assertions.assertEquals(0, app.contacts().getCount());
@@ -56,7 +56,7 @@ public class RemoveContactsTests extends TestBase {
 
         //Проверяем наличие контактов. если нет, то создаём
         if (!app.contacts().isContactPresent()) {
-            app.contacts().createContact(new ContactDate("", "delete", "delete", "delete",""));
+            app.contacts().createContact(new ContactDate("", "delete", "delete", "delete","", "", "", "", ""));
         }
 
         // Проверяем наличие групп. создаём если нет
@@ -76,7 +76,7 @@ public class RemoveContactsTests extends TestBase {
         // Если в группе нет контактов — создаём и добавляем
         if (oldContactsInGroup.isEmpty()) {
             if (!app.contacts().isContactPresent()) {
-                app.contacts().createContact(new ContactDate("", "delete", "delete", "delete",""));
+                app.contacts().createContact(new ContactDate("", "delete", "delete", "delete","", "", "", "", ""));
             }
 
             //Выбор случайного контакта

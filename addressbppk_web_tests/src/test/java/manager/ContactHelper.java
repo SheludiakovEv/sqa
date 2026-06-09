@@ -183,4 +183,9 @@ public class ContactHelper  extends HelperBase{
     private void submitContactCreation() {
         click(By.name("submit"));
     }
+
+    public String getPhones(ContactDate contact) {
+        return manager.driver.findElement(By.xpath(
+                String.format("//input[@id='%s']/../../td[6]",contact.id()))).getText();
+    }
 }
