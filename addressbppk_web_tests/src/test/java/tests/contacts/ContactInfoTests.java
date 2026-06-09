@@ -1,5 +1,6 @@
 package tests.contacts;
 
+import model.ContactDate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
@@ -13,12 +14,12 @@ public class ContactInfoTests extends TestBase {
     void testPhones(){
 
         var contacts = app.hmb().getContactList();
-        var contact = contacts.get(0);
-        var phones = app.contacts().getPhones(contact);
-
-        var expected = Stream.of(contact.home(), contact.mobile(), contact.work(), contact.homepage())
-                .filter(s -> s != null && ! "".equals(s))
-                .collect(Collectors.joining("\n"));
+        var expected = contacts.stream().collect(Collectors.toMap(ContactDate::id, contact ->
+            Stream.of(contact.home(), contact.mobile(), contact.work(), contact.homepage())
+                .filter(s -> s != null && !"".equals(s))
+                .collect(Collectors.joining("\n"))
+        ));
+        var phones = app.contacts().getPhones();
         Assertions.assertEquals(expected, phones);
     }
 }
