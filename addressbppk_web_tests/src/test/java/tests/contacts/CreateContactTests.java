@@ -44,7 +44,7 @@ public class CreateContactTests extends TestBase {
 
     @Test
     public void createContacts() {
-        app.contacts().createContact(new ContactDate("","idea1", "idea2", "idea3", "", "", "", "", ""));
+        app.contacts().createContact(new ContactDate("","idea1", "idea2", "idea3", "", "", "", "", "","", "", "", ""));
     }
 
     public static List<ContactDate> contactProvider() throws IOException {
@@ -53,7 +53,7 @@ public class CreateContactTests extends TestBase {
             for (var header : List.of("", "middle_name")) {
                 for (var footer : List.of("", "last_name")) {
                     for (var photo : List.of("", "src/test/resources/images/avatar.png")) {
-                        result.add(new ContactDate("", name, header, footer, photo, "", "", "", ""));
+                        result.add(new ContactDate("", name, header, footer, photo, "", "", "", "","", "", "", ""));
                     }
                 }
             }

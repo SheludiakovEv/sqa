@@ -18,7 +18,7 @@ public class AddGroupInContact extends TestBase {
 
         //Проверяем наличие контактов. если нет, то создаём
         if (!app.contacts().isContactPresent()) {
-            app.contacts().createContact(new ContactDate("", "New_contact_firstName", "New_contact_middleName", "New_contact_lastName","", "", "", "", ""));
+            app.contacts().createContact(new ContactDate("", "New_contact_firstName", "New_contact_middleName", "New_contact_lastName","", "", "", "", "","", "", "", ""));
         }
 
 

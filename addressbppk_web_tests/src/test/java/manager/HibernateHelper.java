@@ -78,7 +78,11 @@ public class HibernateHelper extends HelperBase{
                 .withHome(record.home)
                 .withMobile(record.mobile)
                 .withWork(record.work)
-                .withHomepage(record.homepage);
+                .withHomepage(record.homepage)
+                .withAddress(record.address)
+                .withEmail(record.email)
+                .withEmail2(record.email2)
+                .withEmail3(record.email3);
     }
 
     private static ContactRecord convert(ContactDate data) {
@@ -86,7 +90,20 @@ public class HibernateHelper extends HelperBase{
         if("".equals(id)){
             id = "0";
         }
-        return new ContactRecord(Integer.parseInt(id), data.firstName(), data.middleName(), data.lastName(), data.photo());
+        return new ContactRecord(Integer.parseInt(id),
+                data.firstName(),
+                data.middleName(),
+                data.lastName(),
+                data.photo(),
+                data.home(),
+                data.mobile(),
+                data.work(),
+                data.homepage(),
+                data.address(),
+                data.email(),
+                data.email2(),
+                data.email3()
+        );
     }
 
     public List<ContactDate> getContactList() {
@@ -115,6 +132,14 @@ public class HibernateHelper extends HelperBase{
             );
             query.setParameter("groupId", Integer.parseInt(group.id()));
             return convertContactList(query.list());
+        });
+    }
+
+    public void createContact(ContactDate contactDate) {
+        sessionFactory.inSession(session -> {
+            session.getTransaction().begin();
+            session.persist(convert(contactDate));
+            session.getTransaction().commit();
         });
     }
 }
