@@ -1,7 +1,7 @@
 package tests.contacts;
 
+import common.CommonFunctions;
 import model.ContactDate;
-import model.GroupDate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
@@ -44,15 +44,40 @@ public class ContactInfoTests extends TestBase {
     }
 
     @Test
-    void testEmailAddress(){
+    void testEmailAddress() {
 
+//        var contacts = app.hmb().getContactList();
+//        var expected = contacts.stream().collect(Collectors.toMap(ContactDate::id, contact ->
+//                Stream.of(contact.email(), contact.email2(), contact.email3())
+//                        .filter(s -> s != null && !"".equals(s))
+//                        .collect(Collectors.joining("\n"))
+//        ));
+//        var emailAddress = app.contacts().getEmail();
+//        Assertions.assertEquals(expected, emailAddress);
+//    }
+        if (app.hmb().getContactCount() == 0) {
+            app.hmb().createContact(new ContactDate()
+                    .withFirstName("First name Test ")
+                    .withEmail(CommonFunctions.randomString(5))
+                    .withEmail2(CommonFunctions.randomString(7))
+                    .withEmail3(CommonFunctions.randomString(10))
+            );
+            app.contacts().openHomePage();
+        }
+
+
+// Получаем актуальный список контактов
         var contacts = app.hmb().getContactList();
-        var expected = contacts.stream().collect(Collectors.toMap(ContactDate::id, contact ->
-                Stream.of(contact.email(), contact.email2(), contact.email3())
-                        .filter(s -> s != null && !"".equals(s))
-                        .collect(Collectors.joining("\n"))
-        ));
-        var emailAddress = app.contacts().getEmail();
-        Assertions.assertEquals(expected, emailAddress);
+
+// Находим в списке именно наш созданный контакт (например, последний или по имени)
+        var contact = contacts.get(contacts.size() - 1);
+
+// Формируем ожидаемую строку из имейлов НАШЕГО контакта
+        var expected = Stream.of(contact.email(), contact.email2(), contact.email3())
+                .filter(s -> s != null && !"".equals(s))
+                .collect(Collectors.joining("\n"));
+
+        var emails = app.contacts().getEmail(contact);
+        Assertions.assertEquals(expected, emails);
     }
 }

@@ -214,14 +214,11 @@ public class ContactHelper  extends HelperBase{
         return result;
     }
 
-    public Object getEmail() {
-        var result = new HashMap<String, String>();
-        List<WebElement> rows = manager.driver.findElements(By.name("entry"));
-        for(WebElement row : rows){
-            var id = row.findElement(By.tagName("input")).getAttribute("id");
-            var email = row.findElements(By.tagName("td")).get(4).getText();
-            result.put(id,email);
-        }
-        return result;
+    public String getEmail(ContactDate contact) {
+        // Находим строку таблицы <tr>, внутри которой есть чекбокс с id нашего контакта,
+        // и берем текст из 5-й ячейки <td> (где в AddressBook выводятся все склеенные email)
+        return manager.driver.findElement(
+                By.xpath(String.format("//tr[./td/input[@id='%s']]/td[5]", contact.id()))
+        ).getText();
     }
 }
