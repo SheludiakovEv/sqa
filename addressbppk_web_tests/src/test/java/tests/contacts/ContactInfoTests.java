@@ -46,15 +46,6 @@ public class ContactInfoTests extends TestBase {
     @Test
     void testEmailAddress() {
 
-//        var contacts = app.hmb().getContactList();
-//        var expected = contacts.stream().collect(Collectors.toMap(ContactDate::id, contact ->
-//                Stream.of(contact.email(), contact.email2(), contact.email3())
-//                        .filter(s -> s != null && !"".equals(s))
-//                        .collect(Collectors.joining("\n"))
-//        ));
-//        var emailAddress = app.contacts().getEmail();
-//        Assertions.assertEquals(expected, emailAddress);
-//    }
         if (app.hmb().getContactCount() == 0) {
             app.hmb().createContact(new ContactDate()
                     .withFirstName("First name Test ")
@@ -65,8 +56,6 @@ public class ContactInfoTests extends TestBase {
             app.contacts().openHomePage();
         }
 
-
-// Получаем актуальный список контактов
         var contacts = app.hmb().getContactList();
 
 // Находим в списке именно наш созданный контакт (например, последний или по имени)
