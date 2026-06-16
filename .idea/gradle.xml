@@ -17,6 +17,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/montis_test1" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -26,6 +27,15 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/addressbppk_web_tests" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/new_montis_tests" />
+        <option name="gradleHome" value="" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/new_montis_tests" />
           </set>
         </option>
       </GradleProjectSettings>
