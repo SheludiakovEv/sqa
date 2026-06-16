@@ -13,6 +13,17 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Selenium: Подключаем строго ядро и Firefox, как написано в комментарии
+    testImplementation 'org.seleniumhq.selenium:selenium-api:4.20.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-firefox-driver:4.20.0'
+
+    // Точечное подключение только нужных браузеров
+    testImplementation 'org.seleniumhq.selenium:selenium-api:4.20.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.20.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-firefox-driver:4.20.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-safari-driver:4.20.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.20.0'
 }
 
 test {
