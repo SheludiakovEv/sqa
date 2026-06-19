@@ -42,4 +42,20 @@ public class HttpSessionHelper extends  HelperBase{
             throw new RuntimeException(e);
         }
     }
+
+    public void registration(String username, String password) {
+        RequestBody formBody = new FormBody.Builder()
+                .add("username", username)
+                .add("password", password)
+                .build();
+        Request request = new Request.Builder()
+                .url(String.format("%s/signup.php", manager.property("web.baseUrl")))
+                .post(formBody)
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new RuntimeException("Unexpected code " + response);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
