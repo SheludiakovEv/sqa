@@ -48,18 +48,22 @@ public class AddGroupInContact extends TestBase {
             }
         }
 
+        // Создаем уникальное имя, добавляя метку времени
+        String uniqueFirstName = "Unique_firstName_" + System.currentTimeMillis();
+
+
         // Создаем контакт для добавлния в группу
         if (selectedGroup == null) {
             selectedGroup = groups.get(0);
 
 
-            ContactDate newContact = new ContactDate("", "Unique_firstName", "Unique_middleName", "Unique_lastName","", "", "", "", "","", "", "", "");
+            ContactDate newContact = new ContactDate("", uniqueFirstName, "Unique_middleName", "Unique_lastName","", "", "", "", "","", "", "", "");
             app.contacts().createContact(newContact);
 
             // Перечитываем список контактов из БД, чтобы получить созданный контакт с его новым ID
             List<ContactDate> updatedContacts = app.hmb().getContactList();
             selectedContact = updatedContacts.stream()
-                    .filter(c -> "Unique_firstName".equals(c.firstName()))
+                    .filter(c -> uniqueFirstName.equals(c.firstName()))
                     .findFirst()
                     .orElseThrow(() -> new RuntimeException("Новый контакт не найден в БД после создания через UI"));
         }
