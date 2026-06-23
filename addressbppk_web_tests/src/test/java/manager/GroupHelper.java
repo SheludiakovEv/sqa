@@ -1,5 +1,6 @@
 package manager;
 
+import io.qameta.allure.Step;
 import model.GroupDate;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -22,6 +23,7 @@ public class GroupHelper extends HelperBase{
         returnToGroupsPage();
     }
 
+    @Step
     public void removeGroup(GroupDate group) {
         openGroupsPage();
         selectGroup(group);

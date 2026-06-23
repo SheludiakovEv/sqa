@@ -9,6 +9,16 @@ repositories {
     mavenCentral()
 }
 
+def allureVersion = '2.29.0'
+def aspectJVersion = '1.9.22'
+
+configurations {
+    agent {
+        canBeResolved = true
+        canBeConsumed = true
+    }
+}
+
 dependencies {
     // JUnit 5
     testImplementation platform('org.junit:junit-bom:5.10.0')
@@ -37,6 +47,11 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
+
+    agent "org.aspectj:aspectjweaver:$aspectJVersion"
+
+    testImplementation platform("io.qameta.allure:allure-bom:$allureVersion")
+    testImplementation "io.qameta.allure:allure-junit5"
 }
 
 test {
@@ -47,4 +62,6 @@ test {
     if(project.hasProperty("target")){
         systemProperty("target", project.property("target"))
     }
+
+    jvmArgs = [ "-javaagent:${configurations.agent.singleFile}" ]
 }
